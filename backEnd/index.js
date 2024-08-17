@@ -47,8 +47,38 @@ const mySchema = new Schema({
 const dataModel = mongoose.model("user" , mySchema );
 
 
-app.post('/home', (req, res)=> {
-    console.log(req.body);
+app.post('/home', async (req, res)=> {
+    const {userName ,email , userData} = req.body;
+    if (!userName){
+        return res.status(400).json({
+            error : "UrerName is Missing"
+        })
+    }
+    if (!email){
+        return res.status(400).json({
+            error : "email is Missing"
+        })
+    }
+    if (!userData){
+        return res.status(400).json({
+            error : "userData is Missing"
+        })
+    }
+
+    const usersInformation = await dataModel.create({
+        userName: userName,
+        email :userName , 
+        userData : userName
+    });
+    usersInformation.save();
+    res.status(200).json({
+        sucess : true,
+        data : usersInformation,
+        message : "post data create in database"
+    })
+    res.end()
+
+
   })
   
 app.listen(3000, ()=>{
