@@ -65,6 +65,7 @@ app.post('/home', async (req, res)=> {
         })
     }
 
+
     const usersInformation = await dataModel.create({
         userName: userName,
         email :userName , 
@@ -76,10 +77,26 @@ app.post('/home', async (req, res)=> {
         data : usersInformation,
         message : "post data create in database"
     })
-    res.end()
 
 
   })
+
+//   ========get all data from database folder========
+app.get ("/getAllData" , async(req,res)=>{
+    const alldata = await dataModel.find({});
+    console.log(alldata);
+    
+    if (!alldata){
+        return res.status(400).json({
+            error : "alldata is not found or empty"
+        })
+    }
+    res.status(200).json({
+        sucess : true,
+        data : alldata,
+        message : "post data create in database"
+    })
+})
   
 app.listen(3000, ()=>{
     console.log("server running");
