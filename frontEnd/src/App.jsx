@@ -9,7 +9,7 @@ function App() {
   return (
     <>
     <div id="first">
-        <h1>wellcome</h1>
+        <h1 className='text-red-500'>wellcome</h1>
         <h2>hjfgj</h2>
     </div>
     <HomePage/>
