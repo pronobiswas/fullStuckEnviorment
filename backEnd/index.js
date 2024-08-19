@@ -2,6 +2,7 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const cors = require('cors')
 
 // const dbUser = bpronobbiswasinfo
 // const dbPass = rFWSHT6ghJs84EWG
@@ -21,7 +22,8 @@ mongoose.connect("mongodb+srv://bpronobbiswasinfo:rFWSHT6ghJs84EWG@cluster0.xpar
 
 // <<<<<<<<<<< middleWare >>>>>>>>>>>>>
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({origin :true}));
+app.use(cors());
 // <<<<<<<<<<< middleWare >>>>>>>>>>>>>
 
 // =======make a schema==========

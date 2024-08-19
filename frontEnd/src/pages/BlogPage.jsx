@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from "axios";
 
+
+
 const BlogPage = () => {
 
   const [inputData , setInputData]= useState({
@@ -20,7 +22,7 @@ const BlogPage = () => {
   };
   const handleSubmit= async()=>{
     const {userName,email,userData} = inputData;
-    await axios.post("http://localhost:3000/getAllData", {
+    await axios.post("http://localhost:3000/post", {
       userName: userName,
       email: email,
       userData: userData,
