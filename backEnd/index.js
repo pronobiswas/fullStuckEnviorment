@@ -47,7 +47,7 @@ const mySchema = new Schema({
 const dataModel = mongoose.model("user" , mySchema );
 
 
-app.post('/home', async (req, res)=> {
+app.post('/post', async (req, res)=> {
     const {userName ,email , userData} = req.body;
     if (!userName){
         return res.status(400).json({
@@ -68,8 +68,8 @@ app.post('/home', async (req, res)=> {
 
     const usersInformation = await dataModel.create({
         userName: userName,
-        email :userName , 
-        userData : userName
+        email :email , 
+        userData : userData
     });
     usersInformation.save();
     res.status(200).json({
@@ -94,7 +94,7 @@ app.get ("/getAllData" , async(req,res)=>{
     res.status(200).json({
         sucess : true,
         data : alldata,
-        message : "post data create in database"
+        message : "get all datab form database"
     })
 })
   
