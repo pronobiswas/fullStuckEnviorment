@@ -12,6 +12,7 @@ const BlogPage = () => {
 
   })
   const [mydb , setMydb] =useState([]);
+  const [makeRealtime , setMakeRealtime] = useState(false)
 
   const handleInputFild=(e)=>{
     const {id, value} = e.target;
@@ -28,6 +29,15 @@ const BlogPage = () => {
       email: email,
       userData: userData,
     })
+    setMakeRealtime(!makeRealtime);
+    // setInputData(
+    //   {
+    //     userName : "",
+    //     email : "",
+    //     userData : "",
+    
+    //   }
+    // )
   };
 
   // =========fetch data from database==========
@@ -35,15 +45,9 @@ const BlogPage = () => {
     async function getAllData() {
       const dataFormDatabase = await axios.get("http://localhost:3000/getAllData")
       setMydb(dataFormDatabase.data.data)
-      
-      
     } 
     getAllData()
-    
-  },[])
-  console.log(mydb);
-
-  const myarr = [1,2,3,4,5,6,7,8,9];
+  },[makeRealtime]);
   
   // ===============rerurn the html body==========
   return (
@@ -52,7 +56,7 @@ const BlogPage = () => {
 
       <div className="w-[340px]  border-2 border-slate-800 py-10 px-3 rounded-2xl">
         <h2 className='text-4xl uppercase font-bold mb-8' >fill the from</h2>
-        <form className='flex flex-col gap-5 ' onSubmit={(e)=>e.preventDefault()}>
+        <form className='flex flex-col gap-5 ' >
 
           <div className='flex flex-col'>
             <label htmlFor="userName" className='text-xl font-semibold mb-2' >User Name</label>
@@ -96,7 +100,7 @@ const BlogPage = () => {
 
         <h2 className='text-3xl ' >here the post</h2>
         {
-          mydb.map((item)=>(
+          mydb?.map((item)=>(
             
             
             <div className='py-4'>
@@ -116,18 +120,6 @@ const BlogPage = () => {
             </div>
           ))
         }
-
-        <div className='py-4'>
-          <p>user name</p>
-          <p>user@email.address</p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga minus labore nihil repellat cumque itaque.
-          </p>
-          <div className='flex justify-center gap-8' >
-            <button className='px-4 py-2 bg-red-700' >delete</button>
-            <button className='px-4 py-2 bg-green-700'>edit</button>
-          </div>
-        </div>
         
       </div>
     </div>
