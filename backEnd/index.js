@@ -48,7 +48,7 @@ const mySchema = new Schema({
 })
 const dataModel = mongoose.model("user" , mySchema );
 
-
+// ==========write data on database===========
 app.post('/post', async (req, res)=> {
     const {userName ,email , userData} = req.body;
     if (!userName){
@@ -86,18 +86,18 @@ app.post('/post', async (req, res)=> {
 //   ========get all data from database folder========
 app.get ("/getAllData" , async(req,res)=>{
     const alldata = await dataModel.find({});
-    console.log(alldata);
     
     if (!alldata){
         return res.status(400).json({
             error : "alldata is not found or empty"
         })
     }
-    res.status(200).json({
+    res.status(200).json({ 
         sucess : true,
         data : alldata,
         message : "get all datab form database"
     })
+    console.log(alldata);
 })
   
 app.listen(3000, ()=>{

@@ -8,12 +8,9 @@ function App() {
 
   return (
     <>
-    <div id="first">
-        <h1 className='text-red-500'>wellcome</h1>
-        <h2>hjfgj</h2>
+    <div className='w-full flex items-center justify-center bg-slate-600' >
+      <BlogPage/>
     </div>
-    <HomePage/>
-    <BlogPage/>
       
     </>
   )
