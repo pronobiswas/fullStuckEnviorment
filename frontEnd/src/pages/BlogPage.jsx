@@ -1,9 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import Modal from 'react-modal';
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 
 
 const BlogPage = () => {
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  
 
   const [inputData , setInputData]= useState({
     userName : "",
@@ -12,7 +26,25 @@ const BlogPage = () => {
 
   })
   const [mydb , setMydb] =useState([]);
-  const [makeRealtime , setMakeRealtime] = useState(false)
+  const [userInfo , setUserInfo]=useState({})
+  const [makeRealtime , setMakeRealtime] = useState(false);
+  const [specificData , setSpecificData] = useState({})
+  const [modifideValue , setModifideValue] = useState({
+    modUserName : "",
+    modEmail : "",
+    modElog : "",
+  })
+  const [revertData , setRevertData] = useState(true)
+
+    // ===========get method here============
+  // =========fetch data from database==========
+  useEffect(()=>{
+    async function getAllData() {
+      const dataFormDatabase = await axios.get("http://localhost:3000/getAllData")
+      setMydb(dataFormDatabase.data.data)
+    } 
+    getAllData()
+  },[makeRealtime]);
 
   const handleInputFild=(e)=>{
     const {id, value} = e.target;
@@ -22,6 +54,7 @@ const BlogPage = () => {
       [id]:value
     })
   };
+  
   const handleSubmit= async()=>{
     const {userName,email,userData} = inputData;
     await axios.post("http://localhost:3000/post", {
@@ -30,25 +63,46 @@ const BlogPage = () => {
       userData: userData,
     })
     setMakeRealtime(!makeRealtime);
-    // setInputData(
-    //   {
-    //     userName : "",
-    //     email : "",
-    //     userData : "",
     
-    //   }
-    // )
   };
 
-  // =========fetch data from database==========
-  useEffect(()=>{
-    async function getAllData() {
-      const dataFormDatabase = await axios.get("http://localhost:3000/getAllData")
-      setMydb(dataFormDatabase.data.data)
-    } 
-    getAllData()
-  },[makeRealtime]);
+  const handleDelete = (event)=>{
+    setUserInfo(event)
+    console.log(userInfo);
+  }
+
+  const handleEdit = (item)=>{
+    setUserInfo(item)
+    setIsOpen(true)
+    
+  }
+  // modal releted funftion
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const handleFocus =(e)=>{
+    setRevertData(false)
+    console.log(revertData);
+  }
+
+  // onchangeFun=======================
+  const handleModalInput = (e)=>{
+    const {id , value} = e.target
+    setModifideValue({
+      ...modifideValue,
+      [id] :value
+    })
+    console.log(modifideValue);
+    
+  }
+
+
   
+  
+
+  
+  // ===============rerurn the html body==========
   // ===============rerurn the html body==========
   return (
     <>
@@ -96,28 +150,65 @@ const BlogPage = () => {
       </div>
 
       {/* =============displaying data=========== */}
+
       <div className='w-[400px] h-[600px] bg-slate-100 px-5 py-6  overflow-y-scroll' >
 
         <h2 className='text-3xl ' >here the post</h2>
         {
           mydb?.map((item)=>(
             
-            
-            <div className='py-4'>
-              {
-                console.log(item)
-                
-              }
-              <p>{item.userName}</p>
-              <p>{item.email}</p>
-              <p>
-                Lorem ipsum dolor sit amet amet amet : <b>{item.userData}</b>
-              </p>
-              <div className='flex justify-center gap-8' >
-                <button className='px-4 py-2 bg-red-700' >delete</button>
-                <button className='px-4 py-2 bg-green-700'>edit</button>
+            <>
+              <div className='py-4'>
+                <p>{item.userName}</p>
+                <p>{item.email}</p>
+                <p>
+                  Lorem ipsum dolor sit amet amet amet : <b>{item.userData}</b>
+                </p>
+                <div className='flex justify-center gap-8' >
+                  <button onClick={()=>handleDelete(item)} className='px-4 py-2 bg-red-700' >delete</button>
+                  <button onClick={()=>handleEdit(item)} className='px-4 py-2 bg-green-700'>edit</button>
+                </div>
               </div>
-            </div>
+
+              <div>
+                <Modal
+                  isOpen={modalIsOpen}
+                  onRequestClose={closeModal}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                >
+                  <button onClick={closeModal} className='bg-red-600 w-6'>X</button>
+                  <div>I am a modal</div>
+                  <form onSubmit={(e)=>{e.preventDefault()}}>
+                    <div className='flex flex-col gap-5'>
+                      <div className='flex flex-col bg-red-300'>
+                        <label htmlFor="modUserName">User Name</label>
+                        <input type="text" id='modUserName' name='modUserName' value={revertData ? userInfo.userName : modifideValue.userName} className='inputStyle' onFocus={handleFocus} onChange={handleModalInput} />
+                      </div>
+                      {
+                        console.log(modifideValue)
+                        
+                      }
+                      <div className='flex flex-col bg-red-300'>
+                        <label htmlFor="modEmail">User mail</label>
+                        <input type="email" id='modEmail' name='modEmail' value={revertData ? userInfo.email : modifideValue.email} className='inputStyle' onFocus={handleFocus} onChange={handleModalInput} />
+                      </div>
+                      
+                      <div className='flex flex-col bg-red-300'>
+                        <label htmlFor="modBlog">User blog</label>
+                        <input type="text" id='modBlog' name='modBlog' value={revertData ? userInfo.userData : modifideValue.blog} className='inputStyle' onFocus={handleFocus} onChange={handleModalInput} />
+                      </div>
+                      <button type='submit' >submit</button>
+                    </div>
+                    
+                  </form>
+                </Modal>
+              </div>
+
+            </>
+
+              
+
           ))
         }
         
