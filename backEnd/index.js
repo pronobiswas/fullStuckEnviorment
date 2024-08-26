@@ -101,11 +101,16 @@ app.get ("/getAllData" , async(req,res)=>{
 })
 
 // ============update data form database==========
-app.get('/updatedata/:id' , async (req, res)=>{
-    console.log(req.params.id);
+app.post('/updatedata/:id' , async (req, res)=>{
+    const {userName , email , userData} = req.body;
     const toBeUpdateId = req.params?.id;
-    const toBeUpdateData = await dataModel.findOneAndUpdate({_id:toBeUpdateId},{userName:"pronob biswas" , email:"bpronob.biswas.info@gmail.com" , userData:"hi this is the first update in database" } , {new:true});
+    const toBeUpdateData = await dataModel.findOneAndUpdate({_id:toBeUpdateId},{userName:userName , email:email , userData:userData } , {new:true});
     console.log(toBeUpdateData);
+    res.status(200).json({
+        sucess:true,
+        data :toBeUpdateData,
+        message : "update data in database"
+    })
     res.end()
     
     

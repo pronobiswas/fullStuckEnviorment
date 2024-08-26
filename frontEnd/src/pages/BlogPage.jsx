@@ -96,9 +96,20 @@ const BlogPage = () => {
     console.log(modifideValue);
   }
 
-  const handleModalSubmit = ()=>{
+  const handleModalSubmit = async()=>{
     setRevertData(true)
-    console.log(modifideValue);
+    try {
+      const apiEndPoint = `http://localhost:3000/updatedata/${userInfo._id}`
+      const updateData = await axios.post(apiEndPoint,{
+        userName : modifideValue.modUserName,
+        email : modifideValue.modEmail,
+        userData: modifideValue.modElog
+      })
+      console.log(updateData);
+      
+    } catch (error) {
+      
+    }
     
   }
 
@@ -190,10 +201,7 @@ const BlogPage = () => {
                         <label htmlFor="modUserName">User Name</label>
                         <input type="text" id='modUserName' name='modUserName' value={revertData ? userInfo.userName : modifideValue.userName} className='inputStyle' onFocus={handleFocus} onChange={handleModalInput} />
                       </div>
-                      {
-                        console.log(modifideValue)
-                        
-                      }
+                      
                       <div className='flex flex-col bg-red-300'>
                         <label htmlFor="modEmail">User mail</label>
                         <input type="email" id='modEmail' name='modEmail' value={revertData ? userInfo.email : modifideValue.email} className='inputStyle' onFocus={handleFocus} onChange={handleModalInput} />
