@@ -94,6 +94,11 @@ const BlogPage = () => {
       [id] :value
     })
     console.log(modifideValue);
+  }
+
+  const handleModalSubmit = ()=>{
+    setRevertData(true)
+    console.log(modifideValue);
     
   }
 
@@ -198,7 +203,7 @@ const BlogPage = () => {
                         <label htmlFor="modBlog">User blog</label>
                         <input type="text" id='modBlog' name='modBlog' value={revertData ? userInfo.userData : modifideValue.blog} className='inputStyle' onFocus={handleFocus} onChange={handleModalInput} />
                       </div>
-                      <button type='submit' >submit</button>
+                      <button type='submit' onClick={handleModalSubmit} >Change</button>
                     </div>
                     
                   </form>
@@ -206,9 +211,6 @@ const BlogPage = () => {
               </div>
 
             </>
-
-              
-
           ))
         }
         

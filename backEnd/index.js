@@ -99,6 +99,17 @@ app.get ("/getAllData" , async(req,res)=>{
     })
     console.log(alldata);
 })
+
+// ============update data form database==========
+app.get('/updatedata/:id' , async (req, res)=>{
+    console.log(req.params.id);
+    const toBeUpdateId = req.params?.id;
+    const toBeUpdateData = await dataModel.findOneAndUpdate({_id:toBeUpdateId},{userName:"pronob biswas" , email:"bpronob.biswas.info@gmail.com" , userData:"hi this is the first update in database" } , {new:true});
+    console.log(toBeUpdateData);
+    res.end()
+    
+    
+})
   
 app.listen(3000, ()=>{
     console.log("server running");
