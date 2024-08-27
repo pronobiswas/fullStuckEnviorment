@@ -104,15 +104,39 @@ app.get ("/getAllData" , async(req,res)=>{
 app.post('/updatedata/:id' , async (req, res)=>{
     const {userName , email , userData} = req.body;
     const toBeUpdateId = req.params?.id;
-    const toBeUpdateData = await dataModel.findOneAndUpdate({_id:toBeUpdateId},{userName:userName , email:email , userData:userData } , {new:true});
-    console.log(toBeUpdateData);
-    res.status(200).json({
-        sucess:true,
-        data :toBeUpdateData,
-        message : "update data in database"
-    })
+    try {
+        const toBeUpdateData = await dataModel.findOneAndUpdate({_id:toBeUpdateId},{userName:userName , email:email , userData:userData } , {new:true});
+        console.log(toBeUpdateData);
+        res.status(200).json({
+            sucess:true,
+            data :toBeUpdateData,
+            message : "update data in database"
+        })
+    } catch (error) {
+        console.log(`this is update data error ${error}`);
+    }
     res.end()
     
+    
+})
+
+// ===========deleteData from database============
+app.delete('/deletedata/:id' , async (req,res)=>{
+    const toBeDeletedId = req.params.id;
+    try {
+        const deleteUser = await dataModel.findOneAndDelete({_id : toBeDeletedId});
+        
+        res.status(200).json({
+            sucess:true,
+            data:deleteUser,
+            message: "hit successfully"
+        })
+    } catch (error) {
+        console.log(`delete functionError : ${error}`);
+        
+    }
+
+    console.log(toBeDeletedId);  
     
 })
   

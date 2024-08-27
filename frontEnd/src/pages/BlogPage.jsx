@@ -57,18 +57,33 @@ const BlogPage = () => {
   
   const handleSubmit= async()=>{
     const {userName,email,userData} = inputData;
-    await axios.post("http://localhost:3000/post", {
-      userName: userName,
-      email: email,
-      userData: userData,
-    })
+    try {
+      await axios.post("http://localhost:3000/post", {
+        userName: userName,
+        email: email,
+        userData: userData,
+      })
+    } catch (error) {
+      console.log(`this is submit error ${error}`);
+      
+    }
     setMakeRealtime(!makeRealtime);
     
   };
 
-  const handleDelete = (event)=>{
-    setUserInfo(event)
-    console.log(userInfo);
+  const handleDelete = async(event)=>{
+    setSpecificData(event)
+    const result = confirm(
+      `${event.userName} are you want to delete this item`
+    )
+    if (result) {
+      let deleteapi = `http://localhost:3000/deletedata/${event._id}`
+      const deletedata = await axios.delete(deleteapi)
+      console.log(deletedata);
+      
+    }
+    setMakeRealtime(!makeRealtime)
+    
   }
 
   const handleEdit = (item)=>{
@@ -108,7 +123,11 @@ const BlogPage = () => {
       console.log(updateData);
       
     } catch (error) {
+      console.log("this is update data error");
       
+    }finally{
+      closeModal()
+      setMakeRealtime(!makeRealtime)
     }
     
   }
@@ -122,9 +141,10 @@ const BlogPage = () => {
   // ===============rerurn the html body==========
   return (
     <>
-    <div className='flex w-full justify-center items-center'>
+    <div className='flex w-full h-[100vh] justify-center items-center gap-7'>
 
-      <div className="w-[340px]  border-2 border-slate-800 py-10 px-3 rounded-2xl">
+
+      <div className="w-[340px]  border-2 border-slate-400 py-10 px-5 rounded-2xl">
         <h2 className='text-4xl uppercase font-bold mb-8' >fill the from</h2>
         <form className='flex flex-col gap-5 ' >
 
@@ -167,7 +187,7 @@ const BlogPage = () => {
 
       {/* =============displaying data=========== */}
 
-      <div className='w-[400px] h-[600px] bg-slate-100 px-5 py-6  overflow-y-scroll' >
+      <div className='w-[400px] h-[600px] bg-slate-100 px-5 py-6  overflow-y-scroll rounded-3xl' >
 
         <h2 className='text-3xl ' >here the post</h2>
         {
