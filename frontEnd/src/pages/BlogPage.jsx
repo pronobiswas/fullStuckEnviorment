@@ -136,7 +136,7 @@ BlogPage = () => {
   // ===============rerurn the html body==========
   return (
     <>
-      <div className="w-full mt-5">
+      <div className="w-full min-h-[87vh]">
         {/* ========plus-button========= */}
         {!plusBtnState ? (
           <div

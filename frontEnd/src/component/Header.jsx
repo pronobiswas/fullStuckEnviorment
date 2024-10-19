@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaBars } from "react-icons/fa6";
+import { FaBars } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 
 const Header = () => {
@@ -37,11 +37,11 @@ const Header = () => {
   };
   return (
     <div>
-      <header className="w-full">
+      <header className="w-full p-5 bg-slate-400 fixed top-0 left-0 z-50">
         {/* ========navbar for mobile ======= */}
         <nav
           id="ForMoile"
-          className="py-2 pt-5 flex items-center justify-between"
+          className="flex items-center justify-between"
         >
           {/* =======menubar====== */}
           {asideMenu ? (
@@ -79,6 +79,7 @@ const Header = () => {
         </nav>
         {/* ========navbar for mobile ======= */}
 
+        {/* ========================== */}
         {asideMenu ? (
           <div
             id="AsideMenu"
