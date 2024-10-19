@@ -82,11 +82,13 @@ const Header = () => {
         {asideMenu ? (
           <div
             id="AsideMenu"
-            className="w-[240px] h-full min-h-[100vh] absolute bg-green-500 z-40 border border-green-600 rounded-lg "
+            className="w-[240px] h-full min-h-[100vh] p-2 absolute bg-green-500 z-40 border border-green-600 rounded-lg "
           >
-            <span>Today : {showDate}</span>
-            <p>time : {showTime}</p>
-            <ul>
+            <div className="flex justify-between font-bold text-2xl text-green-950">
+              <span>Today</span> <b>:</b> <span>{showDate}</span>
+            </div>
+            <p className="text-right">{showTime}</p>
+            <ul className="border-t-2 border-green-300 pt-5">
               <li>Remainder</li>
               <li>Task</li>
               <li>Event</li>

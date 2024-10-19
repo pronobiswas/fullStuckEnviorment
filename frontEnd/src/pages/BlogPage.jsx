@@ -18,7 +18,8 @@ const customStyles = {
   },
 };
 
-const BlogPage = () => {
+const 
+BlogPage = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const [inputData, setInputData] = useState({
@@ -155,7 +156,7 @@ const BlogPage = () => {
         {/* ========plus-button========= */}
 
         {plusBtnState ? (
-          <div className="w-full px-5 rounded-2xl ">
+          <div className="w-full px-5 rounded-2xl absolute z-40 bg-gradient-to-b from-green-500 to-blue-500  top-0 left-0 py-8">
             <h2 className="text-4xl uppercase font-bold mb-8">fill the from</h2>
             <form className="flex flex-col gap-5 ">
               <div className="flex flex-col">
@@ -221,7 +222,7 @@ const BlogPage = () => {
           <h2 className="text-2xl font-bold ">Heres The Post</h2>
           {mydb?.map((item) => (
             <>
-              <div className="p-4 mb-3 bg-green-400 border border-green-500 rounded-md relative">
+              <div className="p-4 mb-3 bg-gradient-to-t from-green-600 to-green-400 border border-green-500 rounded-md relative">
                 <p className="text-xl font-bold">{item.userName}</p>
                 <p className="mb-2 leading-3">{item.email}</p>
                 <p className=" font-extralight leading-4 text-sm">
