@@ -19,14 +19,16 @@ const signUpPage = () => {
   const handleSubmit = async ()=>{
     const {UserName,Email,TelePhone,Password}=inputData;
     try {
-      
+      // =========post data on dtabase============
       await axios.post("http://localhost:3000/signup", {
         UserName: UserName,
         Email: Email,
         TelePhone: TelePhone,
         Password:Password,
       });
-      console.log(inputData);
+      
+      return console.log("data save hoiche");
+      
       
       
       
@@ -81,7 +83,9 @@ const signUpPage = () => {
               placeholder="Enter your passWord" />
             </div>
 
-            <button onClick={handleSubmit}>submit</button>
+            <button 
+            onClick={handleSubmit}
+            className="bg-blue-400 px-8 py-2">submit</button>
 
           </div>
         </div>

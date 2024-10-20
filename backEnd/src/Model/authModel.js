@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const regSchema = new Schema({
-  FullName: {
+  UserName: {
     type: "String",
     required: [true, "Full Name mus be required !!"],
     min: [3, "minum Three charecter"],

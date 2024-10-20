@@ -10,7 +10,7 @@ _.get("/auth/reg",(req,res)=>{
 
     res.send("Hello BackEnd Registetion")
 });
-_.post("/hi",registetionControler)
+_.post("/signup",registetionControler)
 
 
 module.exports = _;

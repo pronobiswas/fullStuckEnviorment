@@ -1,11 +1,12 @@
+const { bcryptPassword } = require("../Helper/helper.js");
 const { RegModel } = require("../Model/authModel.js");
 const { apiError } = require("../Utils/apiError.js");
 const { EamilChecker, PasswordChecker } = require("../Utils/checker.js");
 
 const registetionControler = async (req, res) => {
   try {
-    const { FullName, Email, TelePhone, Password } = req.body;
-    if (!FullName) {
+    const { UserName, Email, TelePhone, Password } = req.body;
+    if (!UserName) {
       return res
         .status(404)
         .json(
@@ -41,21 +42,48 @@ const registetionControler = async (req, res) => {
           )
         );
     }
-
+    // =========Check if user Alrady exist or not=====
+    const ExisUser = await RegModel.find({
+      $or: [{ TelePhone: TelePhone }, { Email: Email }],
+    });
+    if (ExisUser?.length) {
+      return res
+        .status(404)
+        .json(
+          new ApiError(
+            false,
+            null,
+            400,
+            `${ExisUser[0]?.FirstName} Already Exist !!`
+          )
+        );
+    }
+    // now make a  password encrypt
+    const hasPassword = await bcryptPassword(Password);
+    // ====regester An User========
     const RegistetionUser = await new RegModel({
-      FullName,
-      Email,
-      TelePhone,
-      Password,
+      UserName: UserName,
+      Email: Email,
+      TelePhone: TelePhone,
+      Password: hasPassword,
     }).save();
+    
+    console.log(RegistetionUser);
 
     // =========sending Response====
-    res.status(200).json({
-      sucess: true,
-      data: RegistetionUser,
-      message: "update data in database",
-    });
-    console.log(FullName);
+    if (RegistetionUser) {
+      return res
+        .status(200)
+        .json(
+          new apiResponse(
+            true,
+            RegistetionUser,
+            200,
+            null,
+            "Registration  sucesfull"
+          )
+        );
+    }
   } catch (error) {
     res.send(error);
   }
