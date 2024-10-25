@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Authlogin from "./Authlogin";
+import { useNavigate } from "react-router-dom";
+// import { Link } from 'react-router-dom';
+
 
 const signUpPage = () => {
+  const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     UserName: "",
     Email: "",
@@ -27,6 +32,7 @@ const signUpPage = () => {
         Password:Password,
       });
       
+      navigate("/verifyOTP");
       return console.log("data save hoiche");
       
       
@@ -40,9 +46,10 @@ const signUpPage = () => {
   return (
     <>
       <div id="SignUpPages" className="pt-[60px]">
-        <div className="signUpBox w-full p-5 bg-red-400">
-          <h2>Wellcome</h2>
-          <div className="w-full [&>div]:p-2 [&>div]:flex [&>div]:flex-col [&>div]:border-2 [&>div]:border-cyan-400 [&>div]:mb-3 [&>div]:rounded-xl [&>div>input]:rounded-md [&>div>input]:px-2">
+        <div className="signUpBox w-full p-5 bg-red-400 flex flex-col items-center justify-center">
+          <h2 className="text-3xl" >Wellcome to CloudAsistant</h2>
+          <loginPage/>
+          <div className="w-full max-w-[600px] [&>div]:p-2 [&>div]:flex [&>div]:flex-col [&>div]:border-2 [&>div]:border-cyan-400 [&>div]:mb-3 [&>div]:rounded-xl [&>div>input]:rounded-md [&>div>input]:px-2">
 
             <div className="UserName">
               <label htmlFor="UserName">UserName</label>
@@ -86,10 +93,18 @@ const signUpPage = () => {
             <button 
             onClick={handleSubmit}
             className="bg-blue-400 px-8 py-2">submit</button>
+            <div>
+              <p>allredy Have an account</p>
+              {/* <Link to={'/signIn'}>signin</Link> */}
+            </div>
 
           </div>
         </div>
       </div>
+      <Authlogin/>
+      
+      
+      
     </>
   );
 };

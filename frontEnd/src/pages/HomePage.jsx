@@ -1,10 +1,5 @@
 import React from "react";
-import Header from "../component/Header";
 import BlogPage from "./BlogPage";
-import Footer from "../component/Footer";
-
-
-
 
 const HomePage = () => {
   return (

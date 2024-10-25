@@ -37,5 +37,5 @@ const regSchema = new Schema({
     type: String,
   },
 });
-const RegModel = mongoose.model("Reg", regSchema);
+const RegModel = mongoose.model("RegisterUser", regSchema);
 module.exports = { RegModel };

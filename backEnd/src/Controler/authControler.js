@@ -1,7 +1,9 @@
-const { bcryptPassword } = require("../Helper/helper.js");
+const { bcryptPassword, MakeOtp } = require("../Helper/helper.js");
 const { RegModel } = require("../Model/authModel.js");
 const { apiError } = require("../Utils/apiError.js");
+const { apiResponse } = require("../Utils/apiResponse.js");
 const { EamilChecker, PasswordChecker } = require("../Utils/checker.js");
+const { sendMail } = require("../Utils/SendMail.js");
 
 const registetionControler = async (req, res) => {
   try {
@@ -50,16 +52,18 @@ const registetionControler = async (req, res) => {
       return res
         .status(404)
         .json(
-          new ApiError(
+          new apiError(
             false,
             null,
             400,
-            `${ExisUser[0]?.FirstName} Already Exist !!`
+            `${ExisUser?.UserName} Already Exist !!`
           )
         );
     }
     // now make a  password encrypt
     const hasPassword = await bcryptPassword(Password);
+    // =======make OTP=====
+    const otp = await MakeOtp();
     // ====regester An User========
     const RegistetionUser = await new RegModel({
       UserName: UserName,
@@ -67,25 +71,62 @@ const registetionControler = async (req, res) => {
       TelePhone: TelePhone,
       Password: hasPassword,
     }).save();
-    
-    console.log(RegistetionUser);
-
-    // =========sending Response====
-    if (RegistetionUser) {
-      return res
-        .status(200)
-        .json(
-          new apiResponse(
-            true,
-            RegistetionUser,
-            200,
-            null,
-            "Registration  sucesfull"
-          )
-        );
+    // =======send mail=========
+    const mailInfo = await sendMail(UserName, Email, otp);
+    // ===========set OTP in database==============
+    if (RegistetionUser || mailInfo) {
+      await RegModel.findOneAndUpdate(
+        {
+          _id: RegistetionUser._id,
+        },
+        {
+          $set: { OTP: otp },
+        },
+        {
+          new: true,
+        }
+      );
     }
+    
+    // =========sending Response====
+    return res
+      .status(200)
+      .json(
+        new apiResponse(
+          true,
+          RegistetionUser,
+          200,
+          null,
+          "Registration  sucesfull"
+        )
+      );
   } catch (error) {
     res.send(error);
   }
 };
-module.exports = { registetionControler };
+const otpMatchControler = async (req,res)=>{
+  try {
+    const {Email , OTP} = req.body;
+    const findUser = await RegModel.findOne({Email:Email})
+    if(!findUser){
+      return console.log("user Cant found");
+    }
+    if(OTP == findUser.OTP){
+      console.log("otp mileche");
+      findUser.userIsVeryFied = true
+      await findUser.save();
+      console.log(findUser);
+
+    }else{console.log("otp mile mnai");
+    }
+    
+    
+    
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+module.exports = { registetionControler ,otpMatchControler };

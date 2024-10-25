@@ -1,6 +1,10 @@
 import React from "react";
 import "./App.css";
+import RootLayOut from "./LayOut/RootLayOut";
 import HomePage from "./pages/HomePage";
+import SignUpPage from "./pages/signUpPage";
+import Authlogin from "./pages/Authlogin";
+
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -8,8 +12,7 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
-import RootLayOut from "./LayOut/RootLayOut";
-import SignUpPage from "./pages/signUpPage";
+import OTPPage from "./pages/OTPPage";
 
 function App() {
   const router = createBrowserRouter(
@@ -18,6 +21,10 @@ function App() {
         <Route element={<RootLayOut />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signIn" element={<Authlogin />} />
+          <Route path="/verifyOTP" element={<OTPPage />} />
+          
+          
         </Route>
       </>
     )

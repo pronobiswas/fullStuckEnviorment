@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -6,6 +7,7 @@ import { FaBars } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [asideMenu, setAsidemenu] = useState(false);
   //    ====================timer=====
   const [date, setDate] = useState(new Date());
@@ -35,14 +37,14 @@ const Header = () => {
   const handleBar = () => {
     setAsidemenu(!asideMenu);
   };
+  const handleAvatarIcon = () => {
+    navigate("/signup");
+  };
   return (
     <div>
       <header className="w-full p-5 bg-slate-400 fixed top-0 left-0 z-50">
         {/* ========navbar for mobile ======= */}
-        <nav
-          id="ForMoile"
-          className="flex items-center justify-between"
-        >
+        <nav id="ForMoile" className="flex items-center justify-between">
           {/* =======menubar====== */}
           {asideMenu ? (
             <div
@@ -72,7 +74,7 @@ const Header = () => {
             <span>
               <IoSettingsOutline />
             </span>
-            <span>
+            <span onClick={handleAvatarIcon}>
               <FaRegCircleUser />
             </span>
           </div>

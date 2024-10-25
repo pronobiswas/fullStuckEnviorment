@@ -13,7 +13,7 @@ const authRoute = require('./src/auth.js')
 
 mongoose
   .connect(
-    "mongodb+srv://bpronobbiswasinfo:rFWSHT6ghJs84EWG@cluster0.xparo.mongodb.net/myfirstDataBase"
+    "mongodb+srv://bpronobbiswasinfo:rFWSHT6ghJs84EWG@cluster0.xparo.mongodb.net/todos"
   )
   .then(() => {
     console.log("connect database");
